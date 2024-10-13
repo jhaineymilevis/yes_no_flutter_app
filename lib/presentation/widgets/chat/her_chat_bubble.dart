@@ -20,6 +20,7 @@ class HerMessageBubble extends StatelessWidget {
       ),
       //todo : imagen
       _ImageBubble(),
+      const SizedBox(height: 10)
     ]);
   }
 }
@@ -27,7 +28,16 @@ class HerMessageBubble extends StatelessWidget {
 class _ImageBubble extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-        "https://yesno.wtf/assets/yes/4-c53643ecec77153eefb461e053fb4947.gif");
+    //saber las dimensiones del dispositivo
+    final size = MediaQuery.of(context).size;
+
+    return ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: Image.network(
+          "https://yesno.wtf/assets/yes/4-c53643ecec77153eefb461e053fb4947.gif",
+          width: size.width * 0.7,
+          height: 150,
+          fit: BoxFit.cover,
+        ));
   }
 }
