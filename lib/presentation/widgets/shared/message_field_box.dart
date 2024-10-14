@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class MessageFieldBox extends StatelessWidget {
-  const MessageFieldBox({super.key});
+  final ValueChanged<String>
+      onValue; //recibo la funcion que se va a ejecutar en el submit
+  const MessageFieldBox({super.key, required this.onValue});
 
   @override
   Widget build(BuildContext context) {
@@ -22,8 +24,9 @@ class MessageFieldBox extends StatelessWidget {
         icon: const Icon(Icons.send_outlined),
         onPressed: () {
           final textValue = textEditingController.value.text;
-          print("boton: $textValue");
+
           textEditingController.clear(); //con esto limpio el campo de texto
+          onValue(textValue);
         },
       ),
     );
@@ -33,10 +36,10 @@ class MessageFieldBox extends StatelessWidget {
       controller: textEditingController,
       decoration: inputDecoration,
       onFieldSubmitted: (value) {
-        print("submit: $value");
         textEditingController.clear(); //con esto limpio el campo de texto
         focusNode
             .requestFocus(); //recupero el foco en el campo despues dle submit
+        onValue(value);
       },
       onTapOutside: (event) {
         focusNode.unfocus(); //elimina el foco del campo cuando clico por fuera
