@@ -22,7 +22,7 @@ class HerMessageBubble extends StatelessWidget {
       ),
       //todo : imagen
       _ImageBubble(),
-      const SizedBox(height: 10)
+      const SizedBox(height: 9)
     ]);
   }
 }
