@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:yes_no_app/config/helpers/get_yes_no_answer.dart';
 import 'package:yes_no_app/domain/entites/message.dart';
 
 //manejador de estados usando la libreira provider
 class ChatProvider extends ChangeNotifier {
   final ScrollController chatScrollController = ScrollController();
+  final GetYesNoAnswer getYesNoAnswer = GetYesNoAnswer();
 //ChangeNotifier me notifica cambios
   List<Message> messageList = [
     Message(text: "Hola amor", fromWho: FromWho.me),
-    Message(text: "¿Cómo estás?", fromWho: FromWho.me),
-    Message(text: "Hola amor bien y tu?", fromWho: FromWho.her),
-    Message(text: "Bien gracias", fromWho: FromWho.me),
-    Message(text: "¿Qué te gustaría hacer hoy?", fromWho: FromWho.me),
-    Message(text: "Pizza", fromWho: FromWho.her),
   ];
 
   Future<void> sendMessage(String text) async {
     if (text.isEmpty) return; //valido que no puedas enviar emnsajes vacios
     final newMessage = Message(text: text, fromWho: FromWho.me);
     messageList.add(newMessage);
+
+    if (text.endsWith("?")) {
+      herReply();
+    }
     notifyListeners(); // notifica los cambios para que se redbuje la lista
     momveScrollToBottom();
   }
@@ -32,5 +33,12 @@ class ChatProvider extends ChangeNotifier {
         chatScrollController.position.maxScrollExtent,
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeOut);
+  }
+
+  Future<void> herReply() async {
+    final herMessage = await getYesNoAnswer.getAnswer();
+    messageList.add(herMessage);
+    notifyListeners();
+    momveScrollToBottom();
   }
 }

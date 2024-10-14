@@ -21,13 +21,16 @@ class HerMessageBubble extends StatelessWidget {
         height: 5,
       ),
       //todo : imagen
-      _ImageBubble(),
+      _ImageBubble(imageUrl: message.imageUrl!),
       const SizedBox(height: 9)
     ]);
   }
 }
 
 class _ImageBubble extends StatelessWidget {
+  final String imageUrl;
+  const _ImageBubble({required this.imageUrl});
+
   @override
   Widget build(BuildContext context) {
     //saber las dimensiones del dispositivo
@@ -36,7 +39,7 @@ class _ImageBubble extends StatelessWidget {
     return ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Image.network(
-          "https://yesno.wtf/assets/yes/4-c53643ecec77153eefb461e053fb4947.gif",
+          imageUrl,
           width: size.width * 0.7,
           height: 150,
           fit: BoxFit.cover,
